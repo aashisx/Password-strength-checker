@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="page-bg"></div>
+    <div class="container">
+        <header class="header">
+            <h1>Password Strength Checker</h1>
+            <p class="subtitle">Test and improve your password security</p>
+        </header>
+
+        <main class="main-content">
+            <section class="input-section">
+                <div class="password-wrapper">
+                    <label for="password-input" class="visually-hidden">Enter your password</label>
+                    <input
+                        type="password"
+                        id="password-input"
+                        class="password-input"
+                        placeholder="Enter your password"
+                        autocomplete="new-password"
+                        aria-describedby="password-hint"
+                    >
+                    <button type="button" id="toggle-visibility" class="toggle-btn" aria-label="Show password">
+                        <svg class="icon-eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="icon-eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
+                <p id="password-hint" class="hint">Your input is processed locally and never sent anywhere.</p>
+            </section>
+
+            <section class="strength-section" aria-live="polite">
+                <div class="strength-meter">
+                    <div class="meter-bar">
+                        <div class="meter-fill" id="meter-fill"></div>
+                    </div>
+                    <div class="meter-labels">
+                        <span class="label weak">Weak</span>
+                        <span class="label fair">Fair</span>
+                        <span class="label good">Good</span>
+                        <span class="label strong">Strong</span>
+                    </div>
+                </div>
+                <div class="strength-text" id="strength-text">
+                    <span class="strength-label">Strength: </span>
+                    <span class="strength-value" id="strength-value">—</span>
+                </div>
+                <div class="entropy-info" id="entropy-info" hidden>
+                    <span class="entropy-label">Estimated entropy: </span>
+                    <span class="entropy-value" id="entropy-value">—</span> bits
+                </div>
+                <div class="crack-time" id="crack-time" hidden>
+                    <span class="crack-label">Time to crack: </span>
+                    <span class="crack-value" id="crack-value">—</span>
+                </div>
+            </section>
+
+            <section class="suggestions-section" id="suggestions-section" aria-labelledby="suggestions-title">
+                <h2 id="suggestions-title" class="section-title">Suggestions to Improve</h2>
+                <div class="suggestions-list" id="suggestions-list">
+                    <p class="no-suggestions">Enter a password to see personalized suggestions.</p>
+                </div>
+            </section>
+
+            <section class="criteria-section" aria-labelledby="criteria-title">
+                <h2 id="criteria-title" class="section-title">Requirements Checklist</h2>
+                <ul class="criteria-list" id="criteria-list">
+                    <li class="criterion" data-criterion="length">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">At least 12 characters</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="lowercase">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">Contains lowercase letters (a-z)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="uppercase">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">Contains uppercase letters (A-Z)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="numbers">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">Contains numbers (0-9)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="special">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">Contains special characters (!@#$%^&*)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="no-sequences">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">No common sequences (123, abc, qwerty)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                    <li class="criterion" data-criterion="no-repeats">
+                        <svg class="criterion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        <span class="criterion-text">No repeated characters (aaa, 111)</span>
+                        <span class="criterion-status" aria-hidden="true"></span>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="tips-section" aria-labelledby="tips-title">
+                <h2 id="tips-title" class="section-title">Password Best Practices</h2>
+                <div class="tips-grid">
+                    <article class="tip-card">
+                        <div class="tip-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <line x1="8" y1="21" x2="16" y2="21"/>
+                                <line x1="12" y1="17" x2="12" y2="21"/>
+                            </svg>
+                        </div>
+                        <h3>Use a Passphrase</h3>
+                        <p>Combine 4-6 random words: <code>correct-horse-battery-staple</code> is stronger than <code>Tr0ub4dor&3</code></p>
+                    </article>
+                    <article class="tip-card">
+                        <div class="tip-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="16" x2="12" y2="12"/>
+                                <line x1="12" y1="8" x2="12.01" y2="8"/>
+                            </svg>
+                        </div>
+                        <h3>Unique Per Account</h3>
+                        <p>Never reuse passwords. Use a password manager to generate and store unique passwords for each service.</p>
+                    </article>
+                    <article class="tip-card">
+                        <div class="tip-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <h3>Enable 2FA</h3>
+                        <p>Two-factor authentication adds a critical second layer of security beyond just your password.</p>
+                    </article>
+                    <article class="tip-card">
+                        <div class="tip-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                        </div>
+                        <h3>Check for Breaches</h3>
+                        <p>Use services like Have I Been Pwned to check if your passwords have appeared in data breaches.</p>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>All processing happens locally in your browser. No data is transmitted or stored.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
