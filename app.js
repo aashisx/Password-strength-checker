@@ -1,13 +1,10 @@
-/* ==========================================================================
-   Password Strength Checker - Application Logic
-   ========================================================================== */
+/* Password Strength Checker - Application Logic*/
 
 (function() {
     'use strict';
 
-    // ==========================================================================
     // Constants & Configuration
-    // ==========================================================================
+    
 
     const COMMON_SEQUENCES = [
         '0123456789', '9876543210',
@@ -52,10 +49,9 @@
     // Assumed guesses per second (offline attack, strong hash like bcrypt)
     const GUESSES_PER_SECOND = 1e10; // 10 billion guesses/second
 
-    // ==========================================================================
-    // DOM Elements
-    // ==========================================================================
 
+    // DOM Elements
+   
     const elements = {
         passwordInput: document.getElementById('password-input'),
         toggleVisibility: document.getElementById('toggle-visibility'),
@@ -70,10 +66,8 @@
         suggestionsSection: document.getElementById('suggestions-section')
     };
 
-    // ==========================================================================
     // Strength Calculation
-    // ==========================================================================
-
+  
     /**
      * Calculate the character pool size for a password
      */
@@ -149,9 +143,8 @@
         return 'strong';
     }
 
-    // ==========================================================================
     // Criteria Checking
-    // ==========================================================================
+    
 
     function checkCriteria(password) {
         const results = {
@@ -322,9 +315,8 @@
         return icons[type] || icons.length;
     }
 
-    // ==========================================================================
     // UI Update Functions
-    // ==========================================================================
+   
 
     function updateStrengthMeter(entropy, strength) {
         const percentages = { weak: 20, fair: 45, good: 70, strong: 100 };
@@ -397,10 +389,8 @@
         // Removed auto-scroll - it was pushing the input field out of view
     }
 
-    // ==========================================================================
     // Utility Functions
-    // ==========================================================================
-
+   
     function escapeRegExp(string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
@@ -423,9 +413,8 @@
         };
     }
 
-    // ==========================================================================
     // Main Analysis Function
-    // ==========================================================================
+  
 
     function analyzePassword(password) {
         const entropy = calculateEntropy(password);
@@ -438,9 +427,8 @@
         updateSuggestions(suggestions);
     }
 
-    // ==========================================================================
     // Event Handlers
-    // ==========================================================================
+   
 
     const debouncedAnalyze = debounce(analyzePassword, 100);
 
@@ -456,9 +444,9 @@
         input.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
     }
 
-    // ==========================================================================
+    
     // Initialization
-    // ==========================================================================
+   
 
     function init() {
         // Event listeners
