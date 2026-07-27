@@ -547,12 +547,17 @@ body {
     background: var(--color-bg-tertiary);
     border-radius: var(--radius-md);
     border-left: 3px solid var(--color-accent);
-    animation: slideIn var(--transition-normal) ease forwards;
-    opacity: 0;
-    transform: translateX(-10px);
+    animation: slideIn var(--transition-normal) ease both;
+    opacity: 1;
+    transform: translateX(0);
 }
 
 @keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -627,6 +632,9 @@ body {
 }
 
 .tip-card {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
     padding: var(--space-lg);
     background: var(--color-bg-tertiary);
     border-radius: var(--radius-lg);
@@ -754,7 +762,7 @@ body {
 
 @media (min-width: 1025px) {
     .tips-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
